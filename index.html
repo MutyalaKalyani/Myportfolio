@@ -224,17 +224,37 @@
         <a class="f" href="https://twitter.com/i/flow/login"><img src="twitter.png" height="33px width="8px"></a>
     </div>
     <div class="contact-form">
-        <form>
+        <form name="submit-to-google-sheet">
             <input type="text" name="Name" placeholder="Your Name" required>
             <input type="email" name="Email" placeholder="Your Email" required>
             <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
             <button type="submit" class="btn btn2">Submit</button>
+
         </form>
+        <div id="msg"></div>
     </div>
     
 </div>
 <div class="copyright">
     <p>copyright <span>&#xA9</span> made by Mutyala Kalyani.</p>
 </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyjNJkO9ldwOrMLYJr0duBOnus0G1flZ8FTsv0teJb_G7tUvW3oP3NxHxsbAirUMk66/exec'
+    const form = document.forms['submit-to-google-sheet']
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response =>{
+            document.getElementById("msg").innerHTML="your message sent successfully";
+        setTimeout(function(){
+            document.getElementById("msg").innerHTML=""
+        },3000)
+        form.reset()
+     })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
 </body>
 </html>
+
